@@ -1,0 +1,34 @@
+// build.sh
+
+import java.io.*;
+
+public class DockerBuildScript {
+    public static void main(String[] args) {
+        try {
+            // Command to build Docker image
+            String dockerBuildCommand = "docker build -t your_image_name:latest .";
+
+            // Execute the Docker build command
+            Process process = Runtime.getRuntime().exec(dockerBuildCommand);
+
+            // Read output from the process
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            // Wait for the process to complete
+            int exitCode = process.waitFor();
+
+            // Check if the process exited successfully
+            if (exitCode == 0) {
+                System.out.println("Docker image build successful!");
+            } else {
+                System.out.println("Error: Docker image build failed!");
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
